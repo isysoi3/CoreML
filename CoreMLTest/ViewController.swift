@@ -78,13 +78,17 @@ class ViewController: UIViewController {
             return
         }
         
-        var resultString = "Это не кот!"
-        results[0...3].forEach {
-            let identifer = $0.identifier.lowercased()
-            if identifer.range(of: " cat") != nil || identifer.range(of: "cat ") != nil || identifer == "cat" {
-                resultString = "Это кот!"
-            }
-        }
+        let resultString = String(
+            format: "Это%@часы",
+            results[0...3]
+                .map {
+                    $0.identifier.lowercased()
+                }
+                .filter {
+                    print($0)
+                    return $0.range(of: "clock") != nil
+                }.count == 0 ? " не " : " ")
+        
         DispatchQueue.main.async {
             self.resultLabel.text = resultString
         }
