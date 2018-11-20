@@ -76,7 +76,7 @@ class ViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        classificationView.previewLayer.frame = classificationView.frame
+        classificationView.previewLayer.frame = classificationView.bounds
     }
     
     @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
