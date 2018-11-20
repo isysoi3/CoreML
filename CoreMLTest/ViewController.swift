@@ -13,7 +13,7 @@ import SnapKit
 class ViewController: UIViewController {
 
     private var resultLabel: UILabel!
-    private var resultView: CameraView!
+    private var resultView: ClassificationCameraView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     private func initAndConfigureSubviews() {
         resultLabel = UILabel()
-        resultView = CameraView(handleClassifications: handleClassificationsClock)
+        resultView = ClassificationCameraView(handleClassifications: handleClassificationsClock)
         
         resultLabel.numberOfLines = 0
         resultLabel.font = UIFont.boldSystemFont(ofSize: 40)

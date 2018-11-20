@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Vision
 
-class CameraView: UIView {
+class ClassificationCameraView: UIView {
 
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -69,7 +69,7 @@ class CameraView: UIView {
 
 
 // MARK:- CameraView: AVCaptureVideoDataOutputSampleBufferDelegate
-extension CameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension ClassificationCameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
