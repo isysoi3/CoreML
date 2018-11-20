@@ -9,11 +9,12 @@
 import UIKit
 import AVFoundation
 import Vision
+import SnapKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet var resultLabel: UILabel!
-    @IBOutlet var resultView: UIView!
+    private var resultLabel: UILabel!
+    private var resultView: UIView!
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -23,7 +24,41 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initAndConfigureSubviews()
         setupCamera()
+    }
+    
+    private func initAndConfigureSubviews() {
+        resultLabel = UILabel()
+        resultView = UIView()
+        
+        resultLabel.numberOfLines = 0
+        resultLabel.font = UIFont.boldSystemFont(ofSize: 40)
+        resultLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        resultLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        resultLabel.textAlignment = .center
+        
+        [resultView, resultLabel].forEach {
+            view.addSubview($0)
+        }
+        
+        resultLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
+            make.height.equalTo(60)
+        }
+        
+        resultView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(resultView.snp.top)
+        }
+
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        previewLayer.frame = view.frame
     }
     
     private func setupCamera() {
@@ -61,11 +96,6 @@ class ViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             present(alertController, animated: true, completion: nil)
         }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        previewLayer.frame = view.frame
     }
     
     private func handleClassifications(request: VNRequest, error: Error?) {
