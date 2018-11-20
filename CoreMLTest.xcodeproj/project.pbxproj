@@ -13,6 +13,7 @@
 		0942F94E21A28B730082E169 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0942F94D21A28B730082E169 /* Assets.xcassets */; };
 		0942F95121A28B730082E169 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0942F94F21A28B730082E169 /* LaunchScreen.storyboard */; };
 		0942F95921A28D7C0082E169 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0942F95821A28D7B0082E169 /* Inceptionv3.mlmodel */; };
+		EBECE760FC163EAA4616A2D6 /* Pods_CoreMLTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E9205A60F7E2BED886127DB /* Pods_CoreMLTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		0942F95021A28B730082E169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0942F95221A28B730082E169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0942F95821A28D7B0082E169 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
+		8E9205A60F7E2BED886127DB /* Pods_CoreMLTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreMLTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB82BC5142A8C657C71A80E6 /* Pods-CoreMLTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreMLTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoreMLTest/Pods-CoreMLTest.debug.xcconfig"; sourceTree = "<group>"; };
+		CFAA085F90565A49D84515DD /* Pods-CoreMLTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreMLTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoreMLTest/Pods-CoreMLTest.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBECE760FC163EAA4616A2D6 /* Pods_CoreMLTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				0942F94521A28B720082E169 /* CoreMLTest */,
 				0942F94421A28B720082E169 /* Products */,
+				BA7749A163B900BC5DAA52B8 /* Pods */,
+				BF10EE09A5DD371969FEA7EF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,23 @@
 			path = CoreMLTest;
 			sourceTree = "<group>";
 		};
+		BA7749A163B900BC5DAA52B8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AB82BC5142A8C657C71A80E6 /* Pods-CoreMLTest.debug.xcconfig */,
+				CFAA085F90565A49D84515DD /* Pods-CoreMLTest.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BF10EE09A5DD371969FEA7EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8E9205A60F7E2BED886127DB /* Pods_CoreMLTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0942F95521A28B730082E169 /* Build configuration list for PBXNativeTarget "CoreMLTest" */;
 			buildPhases = (
+				1B3A32C2C3D4B3813FA456AA /* [CP] Check Pods Manifest.lock */,
 				0942F93F21A28B720082E169 /* Sources */,
 				0942F94021A28B720082E169 /* Frameworks */,
 				0942F94121A28B720082E169 /* Resources */,
+				2960BB56425CD94A5C416356 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +158,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B3A32C2C3D4B3813FA456AA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CoreMLTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2960BB56425CD94A5C416356 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CoreMLTest/Pods-CoreMLTest-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoreMLTest/Pods-CoreMLTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0942F93F21A28B720082E169 /* Sources */ = {
@@ -284,11 +357,13 @@
 		};
 		0942F95621A28B730082E169 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB82BC5142A8C657C71A80E6 /* Pods-CoreMLTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K3EBJ8K5KL;
 				INFOPLIST_FILE = CoreMLTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,11 +377,13 @@
 		};
 		0942F95721A28B730082E169 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFAA085F90565A49D84515DD /* Pods-CoreMLTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K3EBJ8K5KL;
 				INFOPLIST_FILE = CoreMLTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
