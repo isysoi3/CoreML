@@ -23,7 +23,8 @@ class ViewController: UIViewController {
     
     private func initAndConfigureSubviews() {
         resultLabel = UILabel()
-        resultView = ClassificationCameraView(handleClassifications: handleClassificationsClock)
+        resultView = ClassificationCameraView()
+        resultView.handleClassifications = handleClassificationsClock
         
         resultLabel.numberOfLines = 0
         resultLabel.font = UIFont.boldSystemFont(ofSize: 40)

@@ -12,18 +12,31 @@ import Vision
 
 class ClassificationCameraView: UIView {
 
-    let session = AVCaptureSession()
+    private let visionModel: VNCoreMLModel
+    private let session = AVCaptureSession()
+    private let captureQueue = DispatchQueue(label: "captureQueue")
+    private var visionRequests: [VNRequest] = []
+    
     var previewLayer: AVCaptureVideoPreviewLayer!
-    let captureQueue = DispatchQueue(label: "captureQueue")
-    var visionRequests = [VNRequest]()
-    let handleClassifications: (VNRequest, Error?) -> ()
+    
+    var handleClassifications: ((VNRequest, Error?) -> ())! {
+        didSet {
+            let classificationRequest = VNCoreMLRequest(model: visionModel,
+                                                        completionHandler: handleClassifications)
+            classificationRequest.imageCropAndScaleOption = .centerCrop
+            visionRequests = [classificationRequest]
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(handleClassifications: @escaping (VNRequest, Error?) -> ()) {
-        self.handleClassifications = handleClassifications
+    init() {
+        guard let visionModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
+            fatalError("Could not load model")
+        }
+        self.visionModel = visionModel
         super.init(frame: .zero)
         
         setupCamera()
@@ -52,36 +65,35 @@ class ClassificationCameraView: UIView {
             connection?.videoOrientation = .portrait
             session.startRunning()
             
-            guard let visionModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
-                fatalError("Could not load model")
-            }
-            
-            let classificationRequest = VNCoreMLRequest(model: visionModel, completionHandler: handleClassifications)
-            classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop
-            visionRequests = [classificationRequest]
         } catch {
-            let alertController = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-//            present(alertController, animated: true, completion: nil)
+            fatalError(error.localizedDescription)
         }
     }
 }
 
 
-// MARK:- CameraView: AVCaptureVideoDataOutputSampleBufferDelegate
+// MARK:- ClassificationCameraView: AVCaptureVideoDataOutputSampleBufferDelegate
 extension ClassificationCameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    func captureOutput(_ output: AVCaptureOutput,
+                       didOutput sampleBuffer: CMSampleBuffer,
+                       from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
         
         var requestOptions: [VNImageOption: Any] = [:]
-        if let cameraIntrinsicData = CMGetAttachment(sampleBuffer, key: kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, attachmentModeOut: nil) {
+        if let cameraIntrinsicData = CMGetAttachment(sampleBuffer,
+                                                     key: kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix,
+                                                     attachmentModeOut: nil) {
             requestOptions = [.cameraIntrinsics: cameraIntrinsicData]
         }
         
-        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: CGImagePropertyOrientation.up, options: requestOptions)
+        let imageRequestHandler = VNImageRequestHandler(
+            cvPixelBuffer: pixelBuffer,
+            orientation: UIApplication.shared.statusBarOrientation.isLandscape ?  .left : .up ,
+            options: requestOptions)
+        
         do {
             try imageRequestHandler.perform(visionRequests)
         } catch {
