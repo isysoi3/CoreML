@@ -13,7 +13,18 @@ import SnapKit
 class ViewController: UIViewController {
 
     private var resultLabel: UILabel!
-    private var resultView: ClassificationCameraView!
+    private var classificationView: ClassificationCameraView!
+    private var segmentedControl: UISegmentedControl!
+    
+    private let classificationItems: [String : String] = ["часы" : "clock",
+                                                          "кот" : "cat",
+                                                          "мышь" : "mouse"]
+    
+    private var selectedItem = (name: "часы", classification: "clock") {
+        didSet {
+            classificationView.handleClassifications = handleClassificationsClock
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +34,30 @@ class ViewController: UIViewController {
     
     private func initAndConfigureSubviews() {
         resultLabel = UILabel()
-        resultView = ClassificationCameraView()
-        resultView.handleClassifications = handleClassificationsClock
+        segmentedControl = UISegmentedControl(items: classificationItems.map({ $0.key }))
+        classificationView = ClassificationCameraView()
         
+        classificationView.handleClassifications = handleClassificationsClock
+        
+        segmentedControl.selectedSegmentIndex = classificationItems.map({ $0.key }).firstIndex(of: selectedItem.name)!
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
+        segmentedControl.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        segmentedControl.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+         
         resultLabel.numberOfLines = 0
         resultLabel.font = UIFont.boldSystemFont(ofSize: 40)
         resultLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         resultLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         resultLabel.textAlignment = .center
         
-        [resultView, resultLabel].forEach {
+       
+        [segmentedControl, classificationView, resultLabel].forEach {
             view.addSubview($0)
+        }
+        
+        segmentedControl.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+            make.left.right.equalToSuperview().inset(30)
         }
         
         resultLabel.snp.makeConstraints { make in
@@ -42,17 +66,25 @@ class ViewController: UIViewController {
             make.height.equalTo(60)
         }
         
-        resultView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+        classificationView.snp.makeConstraints { make in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
             make.left.right.equalToSuperview()
-            make.bottom.equalTo(resultView.snp.top)
+            make.bottom.equalTo(resultLabel.snp.top).inset(10)
         }
 
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        resultView.previewLayer.frame = view.frame
+        classificationView.previewLayer.frame = classificationView.frame
+    }
+    
+    @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
+        let selectedKey = classificationItems.map({ $0.key })[sender.selectedSegmentIndex]
+        guard let selectedValue = classificationItems[selectedKey] else {
+                return
+        }
+        selectedItem = (selectedKey, selectedValue)
     }
     
     private func handleClassificationsClock(request: VNRequest, error: Error?) {
@@ -66,15 +98,15 @@ class ViewController: UIViewController {
         }
         
         let resultString = String(
-            format: "Это%@часы",
+            format: "Это%@%@",
             results[0...3]
                 .map {
                     $0.identifier.lowercased()
                 }
                 .filter {
                     print($0)
-                    return $0.range(of: "clock") != nil
-                }.count == 0 ? " не " : " ")
+                    return $0.range(of: selectedItem.classification) != nil
+                }.count == 0 ? " не " : " ", selectedItem.name)
         
         DispatchQueue.main.async {
             self.resultLabel.text = resultString
