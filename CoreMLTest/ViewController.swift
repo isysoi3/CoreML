@@ -18,7 +18,8 @@ class ViewController: UIViewController {
     
     private let classificationItems: [String : String] = ["часы" : "clock",
                                                           "кот" : "cat",
-                                                          "мышь" : "mouse"]
+                                                          "мышь" : "mouse",
+                                                          "кошелек" : "wallet"]
     
     private var selectedItem = (name: "часы", classification: "clock") {
         didSet {
