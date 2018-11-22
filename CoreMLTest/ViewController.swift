@@ -9,6 +9,7 @@
 import UIKit
 import Vision
 import SnapKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -110,7 +111,21 @@ class ViewController: UIViewController {
                 }.count == 0 ? " не " : " ", selectedItem.name)
         
         DispatchQueue.main.async {
-            self.resultLabel.text = resultString
+            guard let currentText = self.resultLabel.text else {
+                 self.resultLabel.text = resultString
+                return
+            }
+            
+            if currentText != resultString {
+                let utterance = AVSpeechUtterance(string: resultString)
+                utterance.voice = AVSpeechSynthesisVoice(language: "ru-RU")
+                utterance.rate = AVSpeechUtteranceDefaultSpeechRate
+                
+                let synthesizer = AVSpeechSynthesizer()
+                synthesizer.speak(utterance)
+                
+                self.resultLabel.text = resultString
+            }
         }
     }
     
