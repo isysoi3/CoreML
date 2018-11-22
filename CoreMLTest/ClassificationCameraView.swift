@@ -91,7 +91,7 @@ extension ClassificationCameraView: AVCaptureVideoDataOutputSampleBufferDelegate
         
         let imageRequestHandler = VNImageRequestHandler(
             cvPixelBuffer: pixelBuffer,
-            orientation: UIApplication.shared.statusBarOrientation.isLandscape ?  .left : .up ,
+            orientation: .up ,
             options: requestOptions)
         
         do {
