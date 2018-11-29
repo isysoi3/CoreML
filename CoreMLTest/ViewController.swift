@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     private var selectedItem = (name: "часы", classification: "clock") {
         didSet {
-            classificationView.handleClassifications = handleClassificationsClock
+            classificationView.handleClassifications = handleClassifications
         }
     }
     
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         segmentedControl = UISegmentedControl(items: classificationItems.map({ $0.key }))
         classificationView = ClassificationCameraView()
         
-        classificationView.handleClassifications = handleClassificationsClock
+        classificationView.handleClassifications = handleClassifications
         
         segmentedControl.selectedSegmentIndex = classificationItems.map({ $0.key }).firstIndex(of: selectedItem.name)!
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
@@ -88,7 +88,7 @@ class ViewController: UIViewController {
         selectedItem = (selectedKey, selectedValue)
     }
     
-    private func handleClassificationsClock(request: VNRequest, error: Error?) {
+    private func handleClassifications(request: VNRequest, error: Error?) {
         if let error = error {
             print(error.localizedDescription)
             return
