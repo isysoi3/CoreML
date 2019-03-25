@@ -14,18 +14,6 @@ class ViewController: UIViewController {
 
     private var resultLabel: UILabel!
     private var classificationView: ClassificationCameraView!
-    private var segmentedControl: UISegmentedControl!
-    
-    private let classificationItems: [String : String] = ["часы" : "clock",
-                                                          "кот" : "cat",
-                                                          "мышь" : "mouse",
-                                                          "кошелек" : "wallet"]
-    
-    private var selectedItem = (name: "часы", classification: "clock") {
-        didSet {
-            classificationView.handleClassifications = handleClassifications
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,40 +23,28 @@ class ViewController: UIViewController {
     
     private func initAndConfigureSubviews() {
         resultLabel = UILabel()
-        segmentedControl = UISegmentedControl(items: classificationItems.map({ $0.key }))
         classificationView = ClassificationCameraView()
         
         classificationView.handleClassifications = handleClassifications
-        
-        segmentedControl.selectedSegmentIndex = classificationItems.map({ $0.key }).firstIndex(of: selectedItem.name)!
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
-        segmentedControl.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        segmentedControl.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
          
         resultLabel.numberOfLines = 0
-        resultLabel.font = UIFont.boldSystemFont(ofSize: 40)
+        resultLabel.font = UIFont.boldSystemFont(ofSize: 25)
         resultLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         resultLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         resultLabel.textAlignment = .center
         
        
-        [segmentedControl, classificationView, resultLabel].forEach {
+        [classificationView, resultLabel].forEach {
             view.addSubview($0)
         }
-        
-        segmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-            make.left.right.equalToSuperview().inset(30)
-        }
-        
         resultLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
-            make.height.equalTo(60)
+            make.height.equalTo(100)
         }
         
         classificationView.snp.makeConstraints { make in
-            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
             make.left.right.equalToSuperview()
             make.bottom.equalTo(resultLabel.snp.top).inset(10)
         }
@@ -80,37 +56,23 @@ class ViewController: UIViewController {
         classificationView.previewLayer.frame = classificationView.bounds
     }
     
-    @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
-        let selectedKey = classificationItems.map({ $0.key })[sender.selectedSegmentIndex]
-        guard let selectedValue = classificationItems[selectedKey] else {
-                return
-        }
-        selectedItem = (selectedKey, selectedValue)
-    }
-    
     private func handleClassifications(request: VNRequest, error: Error?) {
         if let error = error {
             print(error.localizedDescription)
             return
         }
-        guard let results = request.results as? [VNClassificationObservation] else {
+        guard let classifications = request.results as? [VNClassificationObservation] else {
             print("No results")
             return
         }
         
-        let resultString = String(
-            format: "Это%@%@",
-            results[0...3]
-                .map {
-                    $0.identifier.lowercased()
-                }
-                .filter {
-                    print($0)
-                    return $0.range(of: selectedItem.classification) != nil
-                }.count == 0 ? " не " : " ", selectedItem.name)
-        
+        //Malignant
+        //Benign
+        let descriptions = classifications.prefix(2).map { classification in
+            return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
+        }
         DispatchQueue.main.async {
-            self.resultLabel.text = resultString
+            self.resultLabel.text = "Classification:\n" + descriptions.joined(separator: "\n")
         }
     }
     

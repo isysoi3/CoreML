@@ -13,6 +13,7 @@
 		0942F95121A28B730082E169 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0942F94F21A28B730082E169 /* LaunchScreen.storyboard */; };
 		0942F95921A28D7C0082E169 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0942F95821A28D7B0082E169 /* Inceptionv3.mlmodel */; };
 		094EC12521A3F4220080A17A /* ClassificationCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094EC12421A3F4220080A17A /* ClassificationCameraView.swift */; };
+		097333412248C0D800C53AA9 /* BirthmarksClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 097333402248C0D800C53AA9 /* BirthmarksClassifier.mlmodel */; };
 		EBECE760FC163EAA4616A2D6 /* Pods_CoreMLTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E9205A60F7E2BED886127DB /* Pods_CoreMLTest.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		0942F95821A28D7B0082E169 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		094EC12421A3F4220080A17A /* ClassificationCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationCameraView.swift; sourceTree = "<group>"; };
 		09732BB72248A7E000C53AA9 /* CoreMLCreatePlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CoreMLCreatePlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		097333402248C0D800C53AA9 /* BirthmarksClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BirthmarksClassifier.mlmodel; sourceTree = "<group>"; };
 		8E9205A60F7E2BED886127DB /* Pods_CoreMLTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreMLTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB82BC5142A8C657C71A80E6 /* Pods-CoreMLTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreMLTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoreMLTest/Pods-CoreMLTest.debug.xcconfig"; sourceTree = "<group>"; };
 		CFAA085F90565A49D84515DD /* Pods-CoreMLTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreMLTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoreMLTest/Pods-CoreMLTest.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,38 +73,15 @@
 				0942F94F21A28B730082E169 /* LaunchScreen.storyboard */,
 				0942F95221A28B730082E169 /* Info.plist */,
 				0942F95821A28D7B0082E169 /* Inceptionv3.mlmodel */,
+				097333402248C0D800C53AA9 /* BirthmarksClassifier.mlmodel */,
 				094EC12421A3F4220080A17A /* ClassificationCameraView.swift */,
 			);
 			path = CoreMLTest;
 			sourceTree = "<group>";
 		};
-		09732BB82248ABEB00C53AA9 /* Dataset */ = {
-			isa = PBXGroup;
-			children = (
-				09732BB92248ABF200C53AA9 /* Birthmarks-100 */,
-				09732BBA2248AC5100C53AA9 /* Birthmarks-test */,
-			);
-			path = Dataset;
-			sourceTree = "<group>";
-		};
-		09732BB92248ABF200C53AA9 /* Birthmarks-100 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Birthmarks-100";
-			sourceTree = "<group>";
-		};
-		09732BBA2248AC5100C53AA9 /* Birthmarks-test */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Birthmarks-test";
-			sourceTree = "<group>";
-		};
 		09732BBB2248AD8700C53AA9 /* CoreMLCreate */ = {
 			isa = PBXGroup;
 			children = (
-				09732BB82248ABEB00C53AA9 /* Dataset */,
 				09732BB72248A7E000C53AA9 /* CoreMLCreatePlayground.playground */,
 			);
 			path = CoreMLCreate;
@@ -248,6 +227,7 @@
 				0942F94921A28B720082E169 /* ViewController.swift in Sources */,
 				0942F95921A28D7C0082E169 /* Inceptionv3.mlmodel in Sources */,
 				0942F94721A28B720082E169 /* AppDelegate.swift in Sources */,
+				097333412248C0D800C53AA9 /* BirthmarksClassifier.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

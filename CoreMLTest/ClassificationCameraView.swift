@@ -33,7 +33,7 @@ class ClassificationCameraView: UIView {
     }
     
     init() {
-        guard let visionModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
+        guard let visionModel = try? VNCoreMLModel(for: BirthmarksClassifier().model) else {
             fatalError("Could not load model")
         }
         self.visionModel = visionModel
