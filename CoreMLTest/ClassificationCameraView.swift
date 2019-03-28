@@ -26,9 +26,13 @@ class ClassificationCameraView: UIView {
     private var visionRequests: [VNRequest] = []
     
     private var photoButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton()
         
-        button.setTitle("Снять фото", for: .normal)
+        button.setTitle("Take photo", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.blue.cgColor
         
         return button
     }()
@@ -88,6 +92,7 @@ class ClassificationCameraView: UIView {
             make.top.equalTo(imageView.snp.bottom).offset(5)
             make.centerX.equalToSuperview()
             make.height.equalTo(42)
+            make.width.equalTo(120)
         }
     }
     
