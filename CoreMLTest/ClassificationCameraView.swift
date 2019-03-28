@@ -12,10 +12,35 @@ import Vision
 
 class ClassificationCameraView: UIView {
 
+    enum ClassificationCameraViewType {
+        case camera
+        case photo
+    }
+    
     private let visionModel: VNCoreMLModel
+    
     private let session = AVCaptureSession()
+    
     private let captureQueue = DispatchQueue(label: "captureQueue")
+    
     private var visionRequests: [VNRequest] = []
+    
+    private var photoButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        button.setTitle("Снять фото", for: .normal)
+        
+        return button
+    }()
+    
+    private var imageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+    
     
     var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -32,14 +57,38 @@ class ClassificationCameraView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init() {
+    init(type: ClassificationCameraViewType) {
         guard let visionModel = try? VNCoreMLModel(for: BirthmarksClassifier().model) else {
             fatalError("Could not load model")
         }
         self.visionModel = visionModel
         super.init(frame: .zero)
         
-        setupCamera()
+        switch type {
+        case .camera:
+            setupCamera()
+        case .photo:
+            setupPhoto()
+        }
+    }
+    
+    private func setupPhoto() {
+        backgroundColor = .white
+        
+        photoButton.addTarget(self, action: #selector(takePhotoButtonTap), for: .touchUpInside)
+        
+        [photoButton, imageView].forEach(addSubview)
+        
+        imageView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(imageView.snp.width)
+        }
+        
+        photoButton.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(5)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(42)
+        }
     }
     
     private func setupCamera() {
@@ -69,6 +118,18 @@ class ClassificationCameraView: UIView {
             fatalError(error.localizedDescription)
         }
     }
+    
+    
+    @objc private func takePhotoButtonTap() {
+        let imagePickerVC = UIImagePickerController()
+        imagePickerVC.sourceType = .camera
+        imagePickerVC.allowsEditing = true
+        imagePickerVC.delegate = self
+        
+        let vc = (UIApplication.shared.delegate as? AppDelegate)?.getCurrentViewController()
+        vc?.present(imagePickerVC, animated: true)
+    }
+    
 }
 
 
@@ -89,15 +150,46 @@ extension ClassificationCameraView: AVCaptureVideoDataOutputSampleBufferDelegate
             requestOptions = [.cameraIntrinsics: cameraIntrinsicData]
         }
         
-        let imageRequestHandler = VNImageRequestHandler(
-            cvPixelBuffer: pixelBuffer,
-            orientation: .up ,
-            options: requestOptions)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let imageRequestHandler = VNImageRequestHandler(
+                cvPixelBuffer: pixelBuffer,
+                orientation: .up ,
+                options: requestOptions)
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    try imageRequestHandler.perform(self.visionRequests)
+                } catch {
+                    print("Failed to perform classification.\n\(error.localizedDescription)")
+                }
+            }
+        }
+    }
+}
+
+extension ClassificationCameraView: UIImagePickerControllerDelegate & UINavigationControllerDelegate  {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
         
-        do {
-            try imageRequestHandler.perform(visionRequests)
-        } catch {
-            print(error)
+        guard let image = info[.editedImage] as? UIImage,
+            let ciImage = CIImage(image: image),
+            let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))
+            else {
+                imageView.image = .none
+                fatalError("Unable to create \(CIImage.self).")
+        }
+        
+        imageView.image = image
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
+            do {
+                try handler.perform(self.visionRequests)
+            } catch {
+                print("Failed to perform classification.\n\(error.localizedDescription)")
+                self.imageView.image = .none
+            }
         }
     }
 }

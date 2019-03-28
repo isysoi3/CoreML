@@ -27,3 +27,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate {
+    
+    func getCurrentViewController() -> UIViewController? {
+        var currentController: UIViewController? = .none
+        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+            currentController = rootController
+            while( currentController?.presentedViewController != nil ) {
+                currentController = currentController?.presentedViewController
+            }
+        }
+        return currentController
+    }
+    
+}

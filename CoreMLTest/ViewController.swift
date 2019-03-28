@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     private func initAndConfigureSubviews() {
         resultLabel = UILabel()
-        classificationView = ClassificationCameraView()
+        classificationView = ClassificationCameraView(type: .photo)
         
         classificationView.handleClassifications = handleClassifications
          
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        classificationView.previewLayer.frame = classificationView.bounds
+        classificationView.previewLayer?.frame = classificationView.bounds
     }
     
     private func handleClassifications(request: VNRequest, error: Error?) {
