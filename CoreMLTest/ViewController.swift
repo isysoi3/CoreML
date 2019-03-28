@@ -56,6 +56,10 @@ class ViewController: UIViewController {
         classificationView.previewLayer?.frame = classificationView.bounds
     }
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     private func handleClassifications(request: VNRequest, error: Error?) {
         if let error = error {
             print(error.localizedDescription)
