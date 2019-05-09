@@ -10,7 +10,7 @@ import UIKit
 import Vision
 import SnapKit
 
-class ViewController: UIViewController {
+class ClassificationViewController: UIViewController {
 
     private var resultLabel: UILabel!
     private var classificationView: ClassificationCameraView!

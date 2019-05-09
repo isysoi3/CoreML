@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0942F94721A28B720082E169 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942F94621A28B720082E169 /* AppDelegate.swift */; };
-		0942F94921A28B720082E169 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942F94821A28B720082E169 /* ViewController.swift */; };
+		0942F94921A28B720082E169 /* ClassificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942F94821A28B720082E169 /* ClassificationViewController.swift */; };
 		0942F94E21A28B730082E169 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0942F94D21A28B730082E169 /* Assets.xcassets */; };
 		0942F95121A28B730082E169 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0942F94F21A28B730082E169 /* LaunchScreen.storyboard */; };
 		0942F95921A28D7C0082E169 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0942F95821A28D7B0082E169 /* Inceptionv3.mlmodel */; };
@@ -20,7 +20,7 @@
 /* Begin PBXFileReference section */
 		0942F94321A28B720082E169 /* CoreMLTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreMLTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0942F94621A28B720082E169 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0942F94821A28B720082E169 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0942F94821A28B720082E169 /* ClassificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationViewController.swift; sourceTree = "<group>"; };
 		0942F94D21A28B730082E169 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0942F95021A28B730082E169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0942F95221A28B730082E169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				0942F94621A28B720082E169 /* AppDelegate.swift */,
-				0942F94821A28B720082E169 /* ViewController.swift */,
+				0942F94821A28B720082E169 /* ClassificationViewController.swift */,
 				0942F94D21A28B730082E169 /* Assets.xcassets */,
 				0942F94F21A28B730082E169 /* LaunchScreen.storyboard */,
 				0942F95221A28B730082E169 /* Info.plist */,
@@ -224,7 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				094EC12521A3F4220080A17A /* ClassificationCameraView.swift in Sources */,
-				0942F94921A28B720082E169 /* ViewController.swift in Sources */,
+				0942F94921A28B720082E169 /* ClassificationViewController.swift in Sources */,
 				0942F95921A28D7C0082E169 /* Inceptionv3.mlmodel in Sources */,
 				0942F94721A28B720082E169 /* AppDelegate.swift in Sources */,
 				097333412248C0D800C53AA9 /* BirthmarksClassifier.mlmodel in Sources */,
