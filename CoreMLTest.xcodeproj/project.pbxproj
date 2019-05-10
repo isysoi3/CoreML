@@ -57,6 +57,7 @@
 		090881B8228542080063FEC6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0942F94621A28B720082E169 /* AppDelegate.swift */,
 				0942F94D21A28B730082E169 /* Assets.xcassets */,
 				0942F94F21A28B730082E169 /* LaunchScreen.storyboard */,
 				0942F95221A28B730082E169 /* Info.plist */,
@@ -97,7 +98,6 @@
 			children = (
 				090881B9228542240063FEC6 /* MLModel */,
 				090881B7228541F40063FEC6 /* Classification Screen */,
-				0942F94621A28B720082E169 /* AppDelegate.swift */,
 				090881B8228542080063FEC6 /* Supporting Files */,
 			);
 			path = CoreMLTest;
