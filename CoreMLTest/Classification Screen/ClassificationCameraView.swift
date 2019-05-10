@@ -89,10 +89,14 @@ class ClassificationCameraView: UIView {
         }
         
         photoButton.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(5)
+            make.top.equalTo(imageView.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
             make.height.equalTo(42)
             make.width.equalTo(120)
+        }
+        
+        self.snp.makeConstraints { make in
+            make.bottom.equalTo(photoButton).offset(10)
         }
     }
     

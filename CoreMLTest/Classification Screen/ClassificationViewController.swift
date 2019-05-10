@@ -29,18 +29,19 @@ class ClassificationViewController: UIViewController {
          
         resultLabel.numberOfLines = 0
         resultLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        resultLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        resultLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        resultLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        resultLabel.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         resultLabel.textAlignment = .center
         
-       
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
         [classificationView, resultLabel].forEach {
             view.addSubview($0)
         }
         resultLabel.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
+            make.left.right.equalToSuperview().inset(15)
+            make.top.equalTo(classificationView.snp.bottom).offset(15)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
-            make.height.equalTo(100)
         }
         
         classificationView.snp.makeConstraints { make in
