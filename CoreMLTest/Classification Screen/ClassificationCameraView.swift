@@ -41,6 +41,7 @@ class ClassificationCameraView: UIView {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         
         return imageView
     }()
